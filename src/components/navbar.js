@@ -2,6 +2,8 @@ import React from 'react';
 import '../assets/css/darkly.css';
 import '../assets/css/pam.css';
 
+import { Link } from 'react-router-dom';
+
 class Navbar extends React.Component {
     render() {
         return(
@@ -15,18 +17,18 @@ class Navbar extends React.Component {
                     <div class="collapse navbar-collapse" id="navbarColor02">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                            <a class="nav-link active" href="Home">Home
+                            <Link class="nav-link active" to="/home">Home
                                 <span class="visually-hidden">(current)</span>
-                            </a>
+                            </Link>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" href="Analytics">Analytics</a>
+                            <Link class="nav-link" to="/analytics">Analytics</Link>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" href="ImportData">Import Data</a>
+                            <Link class="nav-link" to="/import-data">Import Data</Link>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" href="About">About</a>
+                            <Link class="nav-link" to="/about">About</Link>
                             </li>
                         </ul>
                     </div>
