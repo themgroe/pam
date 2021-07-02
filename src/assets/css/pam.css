@@ -1,0 +1,22 @@
+/*
+ * LABELS 
+ */
+.bold {
+    font-weight: 500;
+}
+
+
+/* 
+ * FONT COLORS
+ */
+.font-black, .navbar-brand, .nav-link {
+    color: black;
+}
+
+
+/*
+ * BACKGROUND COLORS 
+ */
+.bg-green {
+    background-color: #00bc8c
+}
