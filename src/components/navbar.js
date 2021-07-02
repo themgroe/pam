@@ -5,7 +5,7 @@ import '../assets/css/pam.css';
 class Navbar extends React.Component {
     render() {
         return(
-            <nav class="navbar navbar-expand-lg bg-green font-black">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-green">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">PAM</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
