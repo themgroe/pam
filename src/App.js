@@ -2,11 +2,10 @@ import './App.css';
 import {
 	BrowserRouter as Router,
 	Switch,
-	Route,
-	Link
+	Route
 } from 'react-router-dom';
 
-import Navbar from './components/navbar';
+import Navbar from './components/Navbar';
 
 function App() {
 	return (
@@ -16,16 +15,16 @@ function App() {
 				<Navbar />
 				{/* Switch statement that renders specific components based on routes chosen via Navbar */}
 				<Switch>
-					<Route path="/">
+					<Route exact path="/">
 						Home
 					</Route>
-					<Route path="/analytics">
+					<Route exact path="/analytics">
 						Analytics
 					</Route>
-					<Route path="/import-data">
+					<Route exact path="/import-data">
 						Import Data
 					</Route>
-					<Route path="/about">
+					<Route exact path="/about">
 						About
 					</Route>
 				</Switch>
