@@ -1,14 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route
+} from 'react-router-dom';
 
-import Navbar from './components/navbar';
+import Navbar from './components/Navbar';
 
 function App() {
-  return (
-    <div className="App">
-      <Navbar />
-    </div>
-  );
+	return (
+		<div className="App">
+			<Router>
+				{/* Navbar component handles routes */}
+				<Navbar />
+				{/* Switch statement that renders specific components based on routes chosen via Navbar */}
+				<Switch>
+					<Route exact path="/">
+						Home
+					</Route>
+					<Route exact path="/analytics">
+						Analytics
+					</Route>
+					<Route exact path="/import-data">
+						Import Data
+					</Route>
+					<Route exact path="/about">
+						About
+					</Route>
+				</Switch>
+			</Router>
+		</div>
+	);
 }
 
 export default App;
