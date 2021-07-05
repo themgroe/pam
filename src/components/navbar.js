@@ -17,16 +17,16 @@ class Navbar extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarColor02">
                         <ul className="navbar-nav me-auto">
                             <li className="nav-item">
-                            <Link className="nav-link active" to="/">Home</Link>
+                                <Link className="nav-link active" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                            <Link className="nav-link" to="/analytics">Analytics</Link>
+                                <Link className="nav-link" to="/analytics">Analytics</Link>
                             </li>
                             <li className="nav-item">
-                            <Link className="nav-link" to="/import-data">Import Data</Link>
+                                <Link className="nav-link" to="/import-data">Import Data</Link>
                             </li>
                             <li className="nav-item">
-                            <Link className="nav-link" to="/about">About</Link>
+                                <Link className="nav-link" to="/about">About</Link>
                             </li>
                         </ul>
                     </div>

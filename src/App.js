@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+import Analytics from './components/Analytics';
 
 function App() {
 	return (
@@ -19,7 +20,7 @@ function App() {
 						Home
 					</Route>
 					<Route exact path="/analytics">
-						Analytics
+						<Analytics />
 					</Route>
 					<Route exact path="/import-data">
 						Import Data
