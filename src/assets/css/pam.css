@@ -20,3 +20,21 @@
 .bg-green {
     background-color: #00bc8c
 }
+
+/*
+ * NAVIGATION BAR
+ */
+.navbar-links {
+    width: 100%;
+}
+.page-links {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+}
+.info-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 30%
+}
