@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 
 class PAMLineGraph extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {

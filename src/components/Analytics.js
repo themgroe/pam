@@ -45,8 +45,6 @@ class Analytics extends React.Component {
         }
     }
 
-    
-
     render() {
         return(
             <div>
