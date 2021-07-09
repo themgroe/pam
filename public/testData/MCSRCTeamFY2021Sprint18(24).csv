@@ -1,0 +1,46 @@
+Project,Issue Title,Issue Description,Date Finished,Story Points,Burndown
+mcsrc,"Create CI Job to archive master ISO on bin.grid","After having a meeting with the Major and other people, we should create a way to store the iso after merging into master. We should follow a similar path as what the BCD team does on their job `archive_rpm_bin`. This job should run on the `deploy` stage which will need the bundle to be completed successfully.",2021-06-03,3,21
+mcsrc,"uProd - Manually Update PostgreSQL","In order to not get Isolated on Production, we need to update the version of PostgreSQL from 9.6.15 to 9.6.21(currently in master).
+
+- [x] Revert `mceits.mcsrc.grid` to a clean state.
+- [x] Create data (products with revisions, categories, users)
+- [x] SCP all PostgreSQL RPMs and run some type of `yum` command (or any other command) to update the old RPMs with our new ones.
+- [x] Verify everything still works (products, revisions, videos, files, documentation, adding new products)
+- [x] Create steps to five to @glopez  and @dmulalic so that they can follow on uProd.",2021-06-04,3,18
+mcsrc,"addTrustedHosts() doesn't get user input for hostIP","The function `addTrustedHosts()` in `siteConfiguration.sh` expects the variable `hostIP` to be passed in via CI and if not passed in it doesn't use it. 
+![image](/uploads/9b77ecb05ac187bde2cf4aa7f7534ab9/image.png)
+It seems like at some point in time we use to use the `hostIP` variable but now we have lost it... which means that we never enter that first block. We need to indentify why we delete it (if on purpose) and bring it back OR delete this block of code so that we dont use that variable.
+
+We also need to fix the naming of the `f5IpAddress` from `f5IpAddresses`. We can find these things in `gitlab-ci.yml` and on the `siteConfiguration.sh`.",2021-06-09,3,15
+mcsrc,"Create Wiki Page For CI Pipeline","In order to help new people coming into MCSRC and also current members, we need to have a page describing how does the jobs works. Also, what inputs and outputs are for each job.",2021-06-10,2,13
+mcsrc,"uProd - mcsrc.conf is being placed in the wrong directory","There were a few issues encountered during the attempt to upgrade MCSRC to version 1.0.2.10.0 in production.
+
+Upon trying to troubleshoot why documents can't be downloaded properly after an upgrade it was discovered that the Apache configuration file `mcsrc.conf` was placed in the wrong directory. 
+
+Instead of being in `/etc/httpd/conf` it should be in `/etc/httpd/conf.d`",2021-06-11,2,11
+mcsrc,"Create CI Job to archive master ISO on a2dfileserver","After having a meeting with the Major and other people, we should create a way to store the iso after merging into master. We should follow a similar path as what the BCD team does on their job `archive_rpm_a2dfileserver`. This job should run on the `deploy` stage which will need the bundle to be completed successfully.",2021-06-14,3,8
+mcsrc,"Research Spike - is configuring clamav to run in daemon mode for MCSRC worth switching to","When adding an Icon/Screenshot/File/Video to a product in MCSRC, the virus scan time takes a long time (at least 60 seconds regardless of file size).    
+    
+
+from https://www.drupal.org/project/clamav
+    
+In performance-testing, the mean scan-time for each configuration was as follows:
+- Executable: 10.3 seconds
+- Daemon-mode (unix socket): 0.0009 seconds
+- Daemon-mode (TCP/IP): 0.0010 seconds    
+    
+Daemon-mode came out 10,000 times faster than executable mode.
+
+We need to test running in Daemon-mode and compare to the MCSRC default
+- [x] setup test vm with MCSRC s/105
+- [x] record scan times for adding 3 files (small, medium, large)
+- [x] configure test vm to provide daemon-mode(unix sockets) scan and configure MCSRC to use this mode
+- [x] record scan times for adding 3 files (small, medium, large)
+
+**TIMEBOX**:  2 day",2021-06-14,3,5
+mcsrc,"Setup Environment To Create MCSRC ISO","Currently we are dependant to the pipeline to create an ISO. The reason is we do not have the ability to create the MCSRC iso in our local environment. We need to find a way to generate this ISO locally in our windows/linux machine.   
+If its just nto possible to do this locally, then we will need to create a VM that will contain all the necessary dependencies to generate this ISO.
+
+- [x] Go to the CentOS VM gather all the commands needed in order to generate this MCSRC ISO.
+- [x] Find the best way to have a shared folder between a developer and a account on the CentOS VM.
+- [x] Write a WIKI article explaining what each developer need to do in order to replicate this behaviour.",2021-06-14,5,0
