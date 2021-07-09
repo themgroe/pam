@@ -1,0 +1,79 @@
+Project,Issue Title,Issue Description,Date Finished,Story Points,Burndown
+dss,"PUTting (i.e. updating) an invalid registration to a nonexistent id returns 400 instead of 404","While both `400` and `404` are both technically accurate for this condition, the HTTP spec and usual REST procedures dictate that the correct answer to attempting to update a nonexistent id to an invalid registration should be a ""Not found"", rather than a ""Bad request"".
+
+See the following references:
+- https://tools.ietf.org/html/rfc2616#section-10.4.5
+- https://apigee.com/about/blog/technology/restful-api-design-what-about-errors
+- https://stackoverflow.com/questions/25378624/should-a-restful-api-return-400-or-404-when-passed-an-invalid-id
+- https://stackoverflow.com/questions/44401598/http-400-vs-http-404-for-a-malformed-uri-api-request?noredirect=1&lq=1
+
+E.G.
+```
+PUT /registrations/captain-crunch
+{invalid json}
+```
+should result in a 404, not a 400",2021-06-01,3,36
+BCD,"Servlet - Handle Geospatial Coordinate Format Import/Export","The addition of the coordinate format preference (in #753) will require this to be correctly exported and imported.
+
+This depends on #753 being completed.",2021-06-01,3,33
+BCD,"Rich Text - Dragging Multiple Images At Once Duplicates Last Image","Steps to reproduce:
+
+1.  Deploy Rich Text portlet
+2.  Select at least 3 image files and drag them as a unit onto the Rich Text Portlet instance
+
+Typically, the last file of the set will appear for all images.
+
+Potential solution:
+
+In the `RichTextController.js` `initDragAndDrop()` function, inside the `portletElement.ondrop` event handler defined in the function there is iteration through all dragged files in a `for` loop.  That `for` loop establishes a `file` variable that is accessed within the `reader.addEventListener()` for `loadend`.  However, at the time that event listener is invoked, the value for `file` is not guaranteed to be the same value as when the event listener function was defined, since the `for` loop will have continued execution.  The value of `file` needs to be preserved for each defined `loadend` event listener.",2021-06-01,3,30
+CMS,"RPM - Update Spec File For C2AS Version","The CMS RPM `pom.xml` file needs to be updated for the proper `c2as` version requirement.  This should correspond to the version of `c2as` included with C2S2 1.1.3.0.0, as that is the minimum version of C2S2 that supports BCD 1.0.3.X.
+
+Consult the C2S2 team to get the proper version.",2021-06-03,1,29
+BCD,"Build - Update Spec File For C2AS Version","The `BCD.spec` file needs to be updated for the proper `c2as` version requirement.  This should correspond to the version of `c2as` included with C2S2 1.1.3.0.0, as that is the minimum version of C2S2 that supports BCD 1.3.2.X.
+
+Consult the C2S2 team to get the proper version.",2021-06-03,1,28
+BCD,"CI  - Configure Fortify Scan To Fail On Critical/High Findings","The Fortify portion of the CI pipeline should be expanded to parse scan results to determine if there are any critical or high findings and the pipeline should fail if any are found.
+
+The FPR file is a ZIP archive that contains results, so it may be possible to extract and parse the findings therein.
+
+This depends on #896 being completed.",2021-06-03,5,23
+dss,"CI - Parallelize Fortify Execution","To improve the performance of the pipeline, we want to adjust the execution of the pipeline to perform the Fortify tasks in parallel with most of the other jobs.  Use the `needs` directive in GitLab CI to control stage execution.  The Fortify stages should depend only on the last stage of the Documentation chain.
+
+See usmc/bcd#896 for how this is already being done.
+
+Tasks:
+- [x] Break all of the Documentation-related stages into a separate YAML file and import it into the main CI YAML
+- [x] Break all of the Fortify-related stages into a separate YAML file and import it into the main CI YAML",2021-06-08,2,21
+BCD,"Extensions/Theme - Update Help Icon To Go To Portlet Section Of Manual","It has been requested to update the behavior of the help icon in the portlet title bar of every BCD portlet.  The icon should launch the HTML version of the SUM and go to the section for the relevant portlet.
+
+This may require investigation of the PDF-to-HTML conversion process and the resultant HTML to determine if there are consistent targets that can be accessed.",2021-06-08,5,16
+dss,"Wiki - Update SOI Channel Hash To TrackInfo Schema 1.0.0.0.2","Change SOI Channel Hash to `c.soi.valid.fd7f420a84b8e1d3928958d4c8a1e935dbc948ec7b462bbf89fb8d4364848086`",2021-06-08,2,14
+BRVT,"Servlet - DatabaseStringEncryption Security Features","The encryption method used in `DatabaseStringEncryption.java` needs to be updated for security purposes.
+
+The cipher algorithm needs to be updated to `AES/GCM/PKCS5PADDING`.
+
+Follow the implementation from usmc/bcd#824",2021-06-08,1,13
+BCD,"Servlet - Implement CRUD Operations For CommandJournalPortlet","Create, update, delete, and get logic pathways need to be implemented in the `CommandJournalServlet` and `CommandJournalManager` for the `CommandJournalPortlet` object.  The `CommandJournalServlet` should handle all of the requests and parameter parsing; the `CommandJournalManager` should handle all of the database interaction.
+
+This depends on #888 being completed.
+
+Tasks:
+- [x] Implement a ""create"" pathway using `portletNamespace` as the identifier (return created instance to client)
+- [x] Implement an ""update"" pathway using `portletNamespace` as the identifier that handles change to the associated `CommandJournal` object by ID
+- [x] Implement a ""delete"" pathway using `portletNamespace` as the identifier
+- [x] Implement a ""get"" pathway using `portletNamespace` as the identifier",2021-06-09,5,8
+BRVT,"CI  - Configure Fortify Scan To Fail On Critical/High Findings","The Fortify portion of the CI pipeline should be expanded to parse scan results to determine if there are any critical or high findings and the pipeline should fail if any are found.
+
+Use the solution from usmc/bcd#898",2021-06-09,2,6
+BCD,"CI - Remove Release-Specific Jobs","The `rpm_release` and `archive_release_rpm_bin` jobs are no longer relevant and should be removed.",2021-06-11,1,5
+CMS,"CI - Remove Release-Specific Jobs","The `rpm_release` and `archive_release_rpm_bin` jobs are no longer relevant and should be removed.",2021-06-11,1,4
+brvtdoc,"SAM - Remove Application Database Access Username/Password","It has been requested to remove the username and password information for the application database access from the passwords appendix in the SAM.
+
+If that results in no table entries, add a placeholder statement that there are no administration accounts and remove the table.",2021-06-11,1,3
+BRVT,"CI - Remove Release-Specific Jobs","The `rpm_release` and `archive_release_rpm_bin` jobs are no longer relevant and should be removed.",2021-06-11,1,2
+cmsdoc,"SAM - Remove Application Database Access Username/Password","It has been requested to remove the username and password information for the application database access from the passwords appendix in the SAM.
+
+If that results in no table entries, add a placeholder statement that there are no administration accounts and remove the table.",2021-06-11,1,1
+bcdoc,"SAM - Remove Application Database Access Username/Password","It has been requested to remove the username and password information for the application database access from the passwords appendix in the SAM.
+
+If that results in no table entries, add a placeholder statement that there are no administration accounts and remove the table.",2021-06-11,1,0
