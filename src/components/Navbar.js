@@ -3,33 +3,8 @@ import '../assets/css/darkly.css';
 import '../assets/css/pam.css';
 
 import { Link } from 'react-router-dom';
-import Papa from 'papaparse';
 
 class Navbar extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: null
-        };
-        this.setJson = this.setJson.bind(this);
-    }
-
-    getCSV(e) {
-        this.setState({
-          csv: e.target.files[0]
-        }, () => {
-            Papa.parse(this.state.csv, {
-                complete: this.setJson
-            });
-        })
-    }
-
-    setJson(result) {
-        console.log(result);
-        this.setState({parsedContent: result.data})
-    }
-
     render() {
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-green">
@@ -53,10 +28,6 @@ class Navbar extends React.Component {
                                 </li>
                             </div>
                             <div className="info-links">
-                                <div>
-                                    <input type="file" onChange={(e) => this.getCSV(e)}/>
-                                    <div>{this.state.parsedContent}</div>
-                                </div>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/about">About</Link>
                                 </li>
