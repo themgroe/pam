@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PAMAreaGraph from './forms/PAMAreaGraph';
+import PAMLineGraph from './forms/PAMLineGraph';
 import PAMComposedChart from './forms/PAMComposedChart';
 
 class Analytics extends React.Component {
@@ -49,7 +49,7 @@ class Analytics extends React.Component {
         return(
             <div>
                 Analytics Page
-                <PAMAreaGraph data={this.state.project.data} />
+                <PAMLineGraph data={this.state.project.data} />
                 <PAMComposedChart data={this.state.project.data} />
             </div>
         )
