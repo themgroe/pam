@@ -1,0 +1,106 @@
+Project,Issue Title,Issue Description,Date Finished,Story Points,Burndown
+c2s2saedocs,"Update 1.1.3.1.0 SBL DADMS table","Per comments from Carla on SBL (BLD):
+* [x] Change C2S2-SAE version from 1.1.2.x to 1.1.3.x  
+* [x] Change Liferay version from 6.1.2 to 6.2.5",2021-06-02,2,25
+c2s2-sae-package,"Planning Meeting for C2S2-SAE 1.1.2.21.0","Hold planning meeting for C2S2-SAE 1.1.2.21.0 release. Ideally all team members attend.  
+
+* [x] Create directory `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0` and create file `JustificationForChange.txt` in that directory.  
+  * JustificationForChange.txt format. Use text below for initial file contents.
+```
+C2S2-SAE 1.1.2.21.0 Component Identification
+------------------------------------------
+C2AS version: 
+WAI version: 
+CATTY version: 
+SRHEL version: 
+
+Justification For Change
+------------------------
+[TSOADEV-####] Update SRHEL to version 1.0.9.#
+```
+* [x] Create DI2E TSOADEV issue for SHREL update (if new), use Title and Description ""Update C2S2-SAE SRHEL to 1.0.9.n"" where ""n"" is version number, and update JustificationForChange.txt with issue number.  
+* [x] Review all issues completed since the last planning meeting  
+* [x] Determine if it's desired to include any subcomponent issues completed since last meeting in the next release and create new version issues as appropriate in subcomponent repos, e.g. to include a WAI bug fix a new WAI version is needed. It may be the case we do not want to include a change and hold off on creating a new subcomponent version, or we want to create a new subcomponent version and not include it in the next C2S2-SAE release.  
+* [x] Make entries in the JustificationForChange.txt Component Identification section to identify the sub-component versions 
+* [x] Make entries in Justification For Change section for issues needing mention in the BLD and release notes.  These include bug fixes, IA issues, and issues involving changes to install, operation, or documentation that could impact training.
+
+  *Note:* To ensure the JustificationForChange.txt file may be used for release notes and BLD automation, please ensure the following entry format is used.  
+  
+  * Format: `[IssueID] Issue Title/Description`  
+  * Examples:  
+    - `[TSOADEV-2167] Update SRHEL to version 1.0.9.41`  
+    - `[TSOADEV-1380] Fix WAI handling of spaces in hostname`  
+    - `[C2AS-1299] Replace OpenAM with open source equivalent`  
+    - `[C2AS-258] BRVT unable to create items`",2021-06-03,2,23
+Integrator,"Investigate IIIMEF report of BRVT not loading after update to C2S2-SAE 1.1.2.20.0","@rtobin ""Looks like the CPSAs at IIIMEF are experiencing their problems with C2S2 1.1.2.2.1 upgraded to 1.1.2.20.0.""
+
+- [x] @rtobin has requested that we try hostname change from the default before applying the update.
+- [x] anything else that may reproduce the issue",2021-06-07,5,18
+c2s2-sae-package,"Get CM for C2S2-SAE 1.1.2.21.0","Get CM numbers for C2S2-SAE 1.1.2.21.0 delivery
+
+* [x] Determine documents needing CM numbers or version updates  
+* [x] Request CM numbers for C2S2-SAE version 1.1.2.21.0 from CM ([tsoa.cm@navy.mil](mailto:tsoa.cm@navy.mil))  
+* [x] Use the provided CM document to update the previous C2S2-SAE version's `CM_Numbers.xlsx` file and place in `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0\`",2021-06-09,1,17
+c2s2-console-ui,"Create r/1.1.2.0.0 branch","New release branch to pick up recent pw fix",2021-06-10,1,16
+c2s2saedocs,"Update Docs for C2S2-SAE 1.1.2.21.0","Update the documentation for C2S2-SAE 1.1.2.21.0 delivery
+
+* Update c2s2saedocs:
+  * [x] Ensure folder `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0\` exists and contains other needed files, e.g. updated CM_Numbers.xlsx  
+  * [x] Verify C2S2-SAE document CM numbers are updated in CM_Numbers.xlsx  
+  * [x] Get current c2s2saedocs repo and update tex submodule  
+  * [x] Update the following in C2S2SAE.Constants.tex:  
+    * [x] DOCUMENTSUBMITTER (if necessary)  
+    * [x] DOCUMENTREVIEWER (if necessary)  
+    * [x] DOCUMENTAPPROVER (if necessary)  
+* [x] Set version numbers in `c2s2-sae-docs-ci-setenv.cfg`  
+  * [x] Update Current Version of C2S2-SAE in the variable ""CI_C2S2SAE_VERSION"" to ""1.1.2.21.0""  
+  * [x] Update Previous Version of C2S2-SAE in the variable ""CI_PREVIOUS_C2S2SAE_VERSION"" to previous version  
+* [x] Update Justification for Change in BLD/BLD.Overview.tex  
+  * [x] Add TSOADEV issues and summaries from `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0\JustificationForChange.txt` which were included in delivery candidate 1.1.2.21.0
+  * [x] Update total tests variable in RPT/RPT.variables.tex (if necessary)
+  * [x] Update revision history - For documents with new CM numbers, reset the Revision History to just the first (initial) entry with the new delivery date, For updates to documents with existing CM numbers, add an entry to the Revision History (`Updated for [Product Name] [5-Digit Product Version]`) with the delivery date
+    * [x] PCD/Revision.History.csv
+    * [x] PLN/Revision.History.csv
+    * [x] RPT/Revision.History.csv
+    * [x] SAM/Revision.History.csv (if necessary)
+    * [x] SDD/Revision.History.csv (if necessary)
+    * [x] SPS/Revision.History.csv (if necessary)  
+  
+- Review documents:  
+  * [x] BLD
+    * [x] verify hash
+    * [x] verify issue numbers in justification for change table entry
+    * [x] verify software component versions, e.g. Liferay, are correct for the C2S2-SAE version
+  * [x] License
+    * [x] verify license software and versions  
+    * [x] verify link urls  
+  * [x] PCD
+  * [x] PLN
+  * [x] RPT
+  * [x] SAM
+  * [x] SDD
+  * [x] SPS  
+
+* [x] Make folder \\a2dfileserver\SSCPAC.Releases\C2S2-SAE\1.1.2.21.0\need_sigs
+* [x] Create an RTM from the previous release's RTM and place in `\\a2dfileserver\SSCPAC.Releases\C2S2-SAE\1.1.2.21.0`
+* [x] Update the `CI_C2S2SAEDOCS_TARGET_BRANCH` variable in the integrator config file `c2s2-sae-ci-setenv.cfg` at `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0` to point to the correct doc branch
+* [x] Run integrator pipeline on the `r\1.1.2.21.0` branch and verifiy docs created at `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0\docs`.",2021-06-10,3,13
+bcd-selenium,"Upload SAGE Behaviors to DI2E","null",2021-06-14,3,10
+c2s2-sae-package,"Create Pom File To Produce Sage Behaviors","For this task we need to build a pom file to create the desired Sage behavior. Currently there are two behaviors, `TrackIntegrationBehavior.java` and `OverlayIntegrationBehavior.java`. NRL needs this pom file to be able to produce jars for the respective behavior.",2021-06-14,5,5
+c2s2saedocs,"Use Snapshot/r iso for hash","Currently the pipeline uses the iso in the a2d fileserver releases directory. 
+`//a2dfileserver.grid/SSCPAC.Releases/C2S2-SAE/${VERSION}`
+
+The CI/CD yml needs to be updated to look in the snapshots/r directory instead.
+'//a2dfileserver.grid/SSCPAC.Snapshots/C2S2-SAE/r/${VERSION}`
+
+Rationale: ISO is copied to releases after delivery is accepted. Hash should be generated from ISO in ""release candidate"" directory which the snapshots/r dir.
+
+Ensure pipeline completes.",2021-06-15,3,2
+Integrator,"Build delivery Candidate for C2S2-SAE 1.1.2.21.0","Create iso for TSOA 5.0.0.x series maintenance release
+
+* [x] Create a release branch `r/1.1.2.21.0` off the main branch for 1.1.2.21.0 to support release candidate packaging and automated acceptance (PCD) testing.  
+* [x] Update integrator `c2s2-sae-ci-setenv.cfg` file to identify sub components as determined by the release planning meeting. See `\\a2dfileserver.grid\SSCPAC.Snapshots\2S2-SAE\r\1.1.2.21.0\JustificationForChange.txt` for details. Verify TSOADEV issue number for SHREL update was created.  
+  * [x] Verify latest SRHEL version was correctly identified, 1.0.9.x series
+  * [x] Verify settings of other cfg file variables, e.g. test date, etc. 
+* [x] package and run PCD test iso using `""r"" branch to create and test candidate
+* [x] Verify iso, test results, README.txt, Release notes at `\\a2dfileserver.grid\SSCPAC.Snapshots\C2S2-SAE\r\1.1.2.21.0\`",2021-06-15,2,0

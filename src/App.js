@@ -7,6 +7,7 @@ import {
 
 import Navbar from './components/Navbar';
 import Analytics from './components/Analytics';
+import ImportData from './components/ImportData';
 
 function App() {
 	return (
@@ -23,7 +24,7 @@ function App() {
 						<Analytics />
 					</Route>
 					<Route exact path="/import-data">
-						Import Data
+						<ImportData />
 					</Route>
 					<Route exact path="/about">
 						About
