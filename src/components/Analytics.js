@@ -1,5 +1,9 @@
 import React from 'react';
 
+//  Redux Imports
+import { connect } from 'react-redux';
+import { get } from '../redux/data/sprintSlice';
+
 import PAMLineGraph from './forms/PAMLineGraph';
 import PAMComposedChart from './forms/PAMComposedChart';
 

@@ -4,6 +4,6 @@ import sprintReducer from './data/sprintSlice';
 
 export default configureStore({
     reducer: {
-        sprint: sprintDataReducer,
+        sprints: sprintReducer,
     },
 })
