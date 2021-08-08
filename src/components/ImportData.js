@@ -5,7 +5,7 @@ import Papa from 'papaparse';
 
 //  Redux Imports
 import { connect } from 'react-redux';
-import { add, remove } from '../redux/data/sprintSlice';
+import { add, remove, setSelected } from '../redux/data/sprintSlice';
 
 // CSS
 import '../assets/css/pam.css';
@@ -23,7 +23,6 @@ class ImportData extends React.Component {
 
   // Function to obtain name of csv file / the target
   getCSV(e) {
-    console.log(e.target.files[0])
     this.setState({
       selectedCSV: e.target.files[0]
     })
@@ -31,21 +30,14 @@ class ImportData extends React.Component {
 
   onHandleSubmit(e) {
     e.preventDefault();
-    // Add csv to array
-    let arr = [...this.state.arrayCSV];
-    arr.push(this.state.selectedCSV);
-    console.log("CSV array: ", arr)
-    this.setState({arrayCSV: arr, team: null, sprint: null}, () => {
-      // Call on Papa parse to extract the csv as a json callback to setJson() function
-      Papa.parse(this.state.selectedCSV, {
-        complete: this.setJson
-      });
+    // Call on Papa parse to extract the csv as a json callback to setJson() function
+    Papa.parse(this.state.selectedCSV, {
+      complete: this.setJson
     });
   }
 
   removeCSV(UID) {
     // passing the UID for the respective sprint data / csv
-    console.log("UID: ", UID);
     this.props.remove(UID);
   }
 
@@ -66,13 +58,8 @@ class ImportData extends React.Component {
     this.props.add(sprintObject);
   }
 
-  componentDidUpdate() {
-    console.log("New props: ", this.props.sprints)
-  }
-
   render() {
-    const { arrayCSV, team, sprint } = this.state;
-    const { sprints } = this.props;
+    const { sprints, setSelected } = this.props;
 
     return(
       <div>
@@ -103,7 +90,7 @@ class ImportData extends React.Component {
                       <tr key={sprint.UID} className="table-light">
                         <th scope="row">{sprint.Project + " Sprint " + sprint.Sprint }</th>
                         <td>
-                          <button type="button" className="btn btn-light">View</button>
+                          <button type="button" className="btn btn-light" onClick={() => setSelected(sprint.UID)}>View</button>
                         </td>
                         <td>Edit</td>
                         <td>
@@ -127,6 +114,6 @@ const mapStateToProps = (state) => ({
   sprints: state.sprints
 });
 
-const mapDispatchToProps = { add, remove };
+const mapDispatchToProps = { add, remove, setSelected };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportData);

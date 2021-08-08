@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const sprintSlice = createSlice({
     name: 'sprint data',
     initialState: {
-        data: []
+        data: [],
+        selectedCSV: null
     },
     reducers: {
         add: (state, action) => {
@@ -32,7 +33,6 @@ export const sprintSlice = createSlice({
                         let objectAttribute = issueAttributes[index]
                         issueObject[objectAttribute] = data;
                         if (objectAttribute === "Story Points") {
-                            console.log(data)
                             pointsAchieved += parseInt(data);
                         }
                     });
@@ -57,21 +57,33 @@ export const sprintSlice = createSlice({
             state.data = data;
         },
         remove: (state, action) => {
-            console.log("Remove action triggered (pre-state): ", state.data);
+            // variable to hold the "found at" value
             let sprintIndex = 0;
+            // forEach to loop through array 
             state.data.forEach((sprint, index) => {
+                // IF statement to check to see if the UID's match
                 if (sprint.UID === action.payload) {
-                    console.log(`Sprint ${action.payload} found.`);
+                    // set the variable to the "found at" value
                     sprintIndex=index;
+                    // check to see if the sprint.UID matches the selectedCSV
+                    if (state.selectedCSV.UID === action.payload) {
+                        state.selectedCSV = null;
+                    }
                 }
             });
-            let array = state.data;
-            array.splice(sprintIndex, 1);
-            console.log("Resultant data after removal: ", array)
+            // remove the sprint at the index from states.data
+            state.data.splice(sprintIndex, 1);
+        },
+        setSelected: (state, action) => {
+            state.data.forEach(sprint => {
+                if (sprint.UID === action.payload) {
+                    state.selectedCSV = sprint;
+                }
+            })
         }
     }
 })
 
-export const { add, remove } = sprintSlice.actions;
+export const { add, remove, setSelected } = sprintSlice.actions;
 
 export default sprintSlice.reducer;
