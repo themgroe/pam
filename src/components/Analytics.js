@@ -11,14 +11,20 @@ class Analytics extends React.Component {
     {
         super(props);
         this.state = {
-            sprints: this.props.sprints
+            sprints: this.props.sprints,
+            projects: this.props.projects
         }
     }
 
     render() {
         return(
             <div>
-                Analytics Page
+                {/* Header */}
+                {
+                    this.state.sprits ?
+                    <div>{this.state.projects.selectedProject.name}</div> :
+                    <div></div>
+                }
                 <PAMLineGraph data={this.state.sprints} />
                 {/* PAMComposedChart needs a rework to display data properly based on the newly craft objects/reducer state */}
                 {/* <PAMComposedChart data={this.state.sprints} /> */}
@@ -28,7 +34,8 @@ class Analytics extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    sprints: state.sprints
+    sprints: state.sprints,
+    projects: state.projects,
 });
 
 export default connect(mapStateToProps)(Analytics);

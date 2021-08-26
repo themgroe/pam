@@ -1,11 +1,15 @@
 import React from 'react';
 
+// Necessary for routing on clicks / keeping history
+import {withRouter} from 'react-router-dom'
+
 //  Parsing module
 import Papa from 'papaparse';
 
 //  Redux Imports
 import { connect } from 'react-redux';
-import { add, remove, setSelected } from '../redux/data/sprintSlice';
+import { add, remove, selectSprint } from '../redux/data/sprintSlice';
+import { addSprintToProject, selectProject } from '../redux/data/projectSlice';
 
 // CSS
 import '../assets/css/pam.css';
@@ -36,9 +40,8 @@ class ImportData extends React.Component {
     });
   }
 
-  removeCSV(UID) {
-    // passing the UID for the respective sprint data / csv
-    this.props.remove(UID);
+  removeCSV(uid) {
+    this.props.remove(uid)
   }
 
   setJson(result) {
@@ -48,7 +51,7 @@ class ImportData extends React.Component {
     let sprint = titleArray[4];
     let sprintObject = {
       name: team,
-      UID: team+sprint,
+      uid: team+sprint,
       sprint: sprint,
       issues: result.data
     }
@@ -56,10 +59,21 @@ class ImportData extends React.Component {
     this.fileInput.value = "";
     // call the SET action for sprints to add the uploaded sprint to the users data
     this.props.add(sprintObject);
+    // create the project if it doesnt exist and add the sprint to it.
+    this.props.addSprintToProject(sprintObject);
+  }
+
+  goToPage(uid) {
+    //  set selected sprint
+    this.props.selectSprint(uid);
+    //  set selected project
+    this.props.selectProject(uid);
+    //  change pages to analytics
+    this.props.history.push("/analytics");
   }
 
   render() {
-    const { sprints, setSelected } = this.props;
+    const { sprints } = this.props;
 
     return(
       <div>
@@ -79,22 +93,20 @@ class ImportData extends React.Component {
                 <table className="table table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Type</th>
-                      <th scope="col">Column heading</th>
-                      <th scope="col">Column heading</th>
-                      <th scope="col">Column heading</th>
+                      <th scope="col">Project</th>
+                      <th scope="col">Sprint</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {sprints.data.map(sprint => (
-                      <tr key={sprint.UID} className="table-light">
-                        <th scope="row">{sprint.Project + " Sprint " + sprint.Sprint }</th>
-                        <td>
-                          <button type="button" className="btn btn-light" onClick={() => setSelected(sprint.UID)}>View</button>
-                        </td>
-                        <td>Edit</td>
-                        <td>
-                          <button id="removeCSVButton" type="button" className="btn btn-light" onClick={() => this.removeCSV(sprint.UID)}>Remove</button>
+                      <tr id={sprint.UID} key={sprint.UID} className="table-light">
+                        <th scope="row">{sprint.Project}</th>
+                        <th scope="row">{"Sprint " + sprint.Sprint}</th>
+                        <td className="project-action-btns" >
+                          <button type="button" className="btn btn-light" onClick={() => this.goToPage(sprint.UID) }>View</button>
+                          <button type="button" className="btn btn-light" onClick={() => alert("this btn does nothing.")}>Edit</button>
+                          <button type="button" className="btn btn-light" onClick={() => this.removeCSV(sprint.UID)}>Remove</button>
                         </td>
                       </tr>
                     ))}
@@ -111,9 +123,10 @@ class ImportData extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  sprints: state.sprints
+  sprints: state.sprints,
+  projects: state.projects,
 });
 
-const mapDispatchToProps = { add, remove, setSelected };
+const mapDispatchToProps = { add, remove, selectSprint, addSprintToProject, selectProject };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImportData);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ImportData));

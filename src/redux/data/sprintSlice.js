@@ -60,21 +60,25 @@ export const sprintSlice = createSlice({
             // variable to hold the "found at" value
             let sprintIndex = 0;
             // forEach to loop through array 
+            console.log("Sprint: ", state.data)
             state.data.forEach((sprint, index) => {
                 // IF statement to check to see if the UID's match
                 if (sprint.UID === action.payload) {
                     // set the variable to the "found at" value
                     sprintIndex=index;
-                    // check to see if the sprint.UID matches the selectedCSV
-                    if (state.selectedCSV.UID === action.payload) {
-                        state.selectedCSV = null;
+                    // check to see if selected is not null
+                    if (state.selectedCSV != null) {
+                        // check to see if the sprint.UID matches the selectedCSV
+                        if (state.selectedCSV.UID === action.payload) {
+                            state.selectedCSV = null;
+                        }
                     }
                 }
             });
             // remove the sprint at the index from states.data
             state.data.splice(sprintIndex, 1);
         },
-        setSelected: (state, action) => {
+        selectSprint: (state, action) => {
             state.data.forEach(sprint => {
                 if (sprint.UID === action.payload) {
                     state.selectedCSV = sprint;
@@ -84,6 +88,6 @@ export const sprintSlice = createSlice({
     }
 })
 
-export const { add, remove, setSelected } = sprintSlice.actions;
+export const { add, remove, selectSprint } = sprintSlice.actions;
 
 export default sprintSlice.reducer;
