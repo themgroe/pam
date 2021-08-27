@@ -24,7 +24,7 @@ class Navbar extends React.Component {
                                     <Link className="nav-link" to="/analytics">Analytics</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/import-data">Import Data</Link>
+                                    <Link className="nav-link" to="/Manage-data">Manage Data</Link>
                                 </li>
                             </div>
                             <div className="info-links">

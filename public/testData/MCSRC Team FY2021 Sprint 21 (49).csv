@@ -1,0 +1,114 @@
+Project,Issue Title,Issue Description,Date Finished,Story Points,Burndown
+mcsrc,"Import script is losing our syslog configuration","I was doing some regression testing after merging master into s/105 and I noticed that after performing an import the configuration for syslog was blown away. This module is configured when you say yes to installing with STIGs and it is used to send drupal logs to /opt/mcsrc/logs/drupal. These logs were previously only accessible by visiting the MCSRC site Reports => Recent log messages. 
+
+This issue may be solved by issue #386, but i'm not certain",2021-07-14,5,44
+mcsrcdoc,"PCD - Total download count isn't correct when looking at older revisions","There were changes recently made to the MCSRC source code to correct the incomplete logic that handles the download counts for products. Included in these changes was the removal of the Total Downloads for Product field on older revisions. Moving forward that field will only be present on the latest revision.
+
+SOURCE CODE: mcsrc#397",2021-07-14,2,42
+mcsrc,"uProd - Feedback can be improved within our scripts","During the attempt to upgrade MCSRC to version 1.0.2.10.0 in production we encountered a few places that could provide better feedback to the user upgrading MCSRC.
+
+Currently, we have a few places where we use a `_logWarn` to tell the user the currently running process may take a little bit of time and to be patient. We do this when the uninstall script runs and when the import script runs.
+
+We should extend this to when we run the backup script and tell the user it can take up to several hours depending on how many GB of data is being backed up. The backup is composed of two parts: backing up the DB and backing up the private files folder. It would be nice if we provided output when the first of the two completes and the second commences.
+
+
+- [x] Add the log file into the backup script.
+- [x] Add a progress bar or an indicator.",2021-07-14,3,39
+mcsrc,"Remove wait Spinner from log processes","When working on issue #373 we included a spinner that our Gitlab CI did not like. So we need to take it out and work on another way to show a waiting process.",2021-07-15,2,37
+mcsrc,"Issue 336 was never applied to Master","Months ago we underestimated the time it would take to make S/105 our new Master branch. At the time we were thinking that was right around the corner so we thought it would be okay to make issue #336 for the s/105 branch. It turns out that s/105 has yet to become our Master branch and so the changes made in issue #336 have yet to be made in Master.",2021-07-20,3,34
+mcsrc,"s/105 - Replace chcon with semanage again","This issue is for the S105 branch.  
+
+Both **asdStigs.sh** and **site-import.sh** contain chcon commands that should be replaced with semanage, folowed by restorecon.  Output from restorecon should be piped to /dev/null (see c/347)
+
+## Possible Solution
+
+site-import.sh : 
+```    
+    chcon -R -t $selinux_type /opt/mcsrc/files/private &&
+    chcon -R -u $selinux_user /opt/mcsrc/files/private; then
+```
+
+used to be:
+
+```
+   semanage fcontext -a -t $selinux_type -s $selinux_user /opt/mcsrc/files/private(/.*)? &&
+   restorecon -v -R /opt/mcsrc/files/private; then
+```
+
+however we should remove the -v and pipe the output to /dev/null",2021-07-21,2,32
+mcsrcdoc,"PCD - s/105 - Bugs found while executing PCD","The following issues with the documentation were found when going through the PCD on s/105 iso. This issue is blocked until we switch from master to s/105.    
+
+- [x] Section 4.2.1 - 4.2.10 Step 24 Expected results are that ""MCSRC Owner’s account details will only display a username and no other information"" but I also see email address test@mcsrc.gov. Change ""NOTE: MCSRC Owner’s account details will only display a username and no other information"" to ""NOTE: MCSRC Owner’s account details will only display username and email address and no other information""
+- [x] 4.2.1-4.2.10 Step 48, 4.3 Steps 2 and 4, 4.4 Step 23, 4.5.1-4.5.2 Step 44, 4.8.1-4.8.5 Step 31, 4.11.1 Step 12 Says to Click the ""With Selection"" but actually says ""Action"". In these section change ""With Selection"" to ""Action""
+- [x] 4.2.1-4.2.10 Step 50, 4.3 Steps 3 and 5, 4.4 Step 25, 4.5.1-4.5.2 Step 46, 4.8.1-4.8.5 Step 31, 4.11.1 Step 12 Says Click on the ""Apply"" button but actually says ""Apply to selected items"". In these sections change ""Apply"" to ""Apply to selected items"".
+- [x] Section 4.6.3 A2M-330 Filter by Category Step 9 says to select ""SAVE AND PUBLISH"" but GUI says ""SAVE"". Change ""SAVE AND PUBLISH"" to ""SAVE""",2021-07-21,2,30
+mcsrc,"Total download count isn't correct when looking at older revisions","Products added to MCSRC provide a download count that lets the user know how many times the product file has been downloaded. This number is correct when looking at the current/latest revision, but is incorrect when looking at older revisions.
+
+This can probably be solved with a similar approach to the revision download count which utilizes two database tables
+
+DOCUMENTATION: mcsrcdoc#151",2021-07-22,5,25
+mcsrcdoc,"s/105 - Refactor PCD for changes found during testing","**Page 25:** Step 48 - Dropdown box is labeled ""Apply to selected items"" not ""Apply""
+
+**Page 106:** Section 4.16 - Test should specify which user should be executing it.  
+*NOTE: Also, check other tests for the same problem.*
+[see this issue to help you search for more changes http://git.grid/usmc/apple/mcsrc/mcsrc/-/issues/329]
+
+Blocked until we make s105 our new master",2021-07-22,3,22
+mcsrc,"s/105 - Help Page Does Not Exists","Issues found while executing the PCD on s/105 branch  
+PCD taken from SSCPAC_Snapshots and master
+
+- [ ] Help page not found. Section 4.18: selected question mark and said the file could not be found
+
+refs #394",2021-07-22,3,19
+mcsrc,"s/105 - Owning Organizations do not display","Issues found while executing the PCD on s/105 branch  
+PCD taken from SSCPAC_Snapshots and master
+
+
+- [ ] Owning Organization section only shows ""N/A""
+
+refs #295, #394",2021-07-23,3,16
+mcsrc,"s/105 - Perform Upgrade from 1.0.2.11.0","In order to verify the upgrade from 1.0.2.x(old drupal) to 1.0.3( new drupal). we need to perform an upgrade. This will need to test all full functionally of the backup, uninstall, install, and import.
+
+- [x] Install latest 1.0.2.11.0 ISO
+- [x] Create several users
+- [x] Create several products with all fill out, and also revisions for those products, WITH different users.
+- [x] Leave Reviews for each of the products.
+- [x] Take a Snapshot of your VM for ease of development.
+- [x] Create a new role and a new section like we have on Production.
+- [x] Perform an upgrade
+- [x] Carefully check the display logs.
+- [x] Carefully check all the logs created.
+- [x] Perform a PCD.
+- [x] Identify any issues on MCSRC in this issue.",2021-07-26,8,8
+mcsrc,"Configure ClamAV to use Daemon Mode","This issues is to apply the changes that Roberto found on issue #353. Please take a read at the issue and the comments to apply the changes and improve our clamav speeds.",2021-07-26,5,3
+mcsrcdoc,"s/105 - Minor Issues found based on PCD Execution","Issues found while executing the PCD on s/105 branch  
+PCD taken from SSCPAC_Snapshots and master
+ 
+Section 4.2 Step 24 NOTE: MCSRC Owner’s account details will only display a username and no other information however there is an email address [CHANGE.ME@mcsrc.gov](mailto:CHANGE.ME@mcsrc.gov)
+(This change was fixed prior to this issues)
+
+""With selection"" drop down arrow is ""Action""  
+Section 4.2 Step 48  
+Section 4.3 Steps 2, 4  
+Section 4.4 Step 23  
+Section 4.5 Step 44  
+Section 4.8.1-5 Step 31  
+Section 4.11 Step 12
+(SAM, PCD, PLN, SUM)
+
+""Apply"" button is ""Apply to selected items""  
+Section 4.2 Step 50  
+Section 4.3 Steps 3, 5  
+Section 4.4 Step 25  
+Section 4.5 Step 46  
+Section 4.8.1-5 Step 31  
+Section 4.11 Step 12
+(SUM, PCD, PLN, SUM)
+PLN change appears to be unused.
+
+""SAVE AND PUBLISH"" -> ""SAVE""  
+Section 4.6.3 Step 9
+
+**NOTE We need to create a separate branch `s/105` similar to MCSRC**
+
+refs mcsrc#394",2021-07-26,3,0

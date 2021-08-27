@@ -1,0 +1,253 @@
+Project,Issue Title,Issue Description,Date Finished,Story Points,Burndown
+BCD,"Servlet - CommandJournalServlet getAllCommandJournals Returns Incorrect JSON","In `CommandJournalServlet#getAllCommandJournals()`, the `JSONArray` being returned is created by passing in a Collection to the `JSONArray` constructor.  This does not produce the proper JSON.
+
+The implementation should iterate through the List of `CommandJournal` objects and invoke `toJSON()` on each object to build the `JSONArray`.",2021-07-22,1,88
+dss,"Wiki - Add SummaryUrl To Registration Schema","Pending completion of #126 , we need to add information in the `Registration Schema` part of our wiki (http://git.grid/usmc/dss/dss/-/wikis/usage/registration-schema) for the `summaryUrl` field to illustrate how to properly create registrations with `summaryUrl` and access the associated summary using the `summaryUrl` value.",2021-07-23,1,87
+CJMTK Connector,"Update Mappings To Track Schema 1.0.1.1.1","Update to the following relevant schema versions:
+
+* schemas-ops-tracks: `1.0.1.1.1`
+* schemas-common: `1.0.0.0.4`
+
+Schema files can be found here: `\\a2dfileserver.grid\VMs\TSOA\schemas`
+
+Changes to the Track mapping are as follows (may not be comprehensive):
+
+      - track -> entity (object)   
+         -  entityId: (string, required)
+         -  trackType -> type: (string, required, enum)  
+		 -  threat -> alignment: (string, required, enum - ""FRD"",""HOS"",""NEU"",""UNK"",""PND"",""AFD"",""SUS"",  ""default"": ""UNK"")  
+		 -  environmentCategory -> environment: (string, enum - ""AIR"",""SUB"",""SUR"",""LND"",""SPC"",""UNK"",   ""default"": ""UNK"")
+		 -  labels: (object)   
+              - name: (string, required) 
+		 -  milStd2525Symbol -> symbol: (object)      
+		      -  sidc: (string, required)   
+		      -  specification: (string, required, enum - ""A"",""B"",""C"",""D"",  ""default"": ""C"")   
+		 -  civilian: (boolean, required)   
+		 -  events[].classification -> classification: (string, required, enum)   
+      - events[] -> report (object)   
+          -  events[].dtg -> dtg: (number, required, ""Decimal representation of milliseconds since 1970 UTC."", ""java.lang.Long"")
+          -  events[].location.position -> position (object)
+             -  latitude: (number, required, ""Decimal representation of a latitude."", ""example"": 43.24532, ""minimum"": -90, ""maximum"": 90)
+             -  longitude:(number, required, ""Decimal representation of a longitude."", ""example"": -124.58293, ""minimum"": -180, ""maximum"": 180)  
+          - height: (number, not required) 
+		      -- ""The altitude / elevation / depth of the entity, referenced to sea level and measured in meters. 
+				  Negative values are below sea level."",
+              -- ""warning"": ""Use this field in conjunction with the unit type to parse the field 
+					    (i.e. a negative height on a ground unit means their elevation is below sea level).""
+          - course:  (number, not required) 
+		            -- ""Decimal representation of a degree."", ""example"": 43.24532, ""minimum"": 0, ""maximum"": 360
+          - speed:  (number, not required)",,3,84
+BCD,"Build - Update To Fail When RPM Build Fails","Currently, the build for the RPM can fail without resulting in the build failing:
+
+http://git.grid/usmc/bcd/-/jobs/106434
+
+The build needs to be updated to fail when this occurs.",2021-07-12,1,83
+BCD,"Build - Service Worker JavaScript Not Updated In RPM","The change in name of the `service-worker.js` needs to be updated in the `BCD.spec` file.
+
+http://git.grid/usmc/bcd/-/jobs/106434",2021-07-13,1,82
+BCD,"Servlet - CommandJournalManager Incorrectly Creates CommandJournalPortlet Objects","`CommandJournalManager#createPortlet()` attempts to create a new (not yet persisted) `CommandJournal` object and associate it with the new `CommandJournalPortlet` object being created.  This is incorrect, since the `CommandJournal` object is not yet persisted, so this fails.  It is also incorrect to create a new `CommandJournal` object automatically at the time of creation of a `CommandJournalPortlet`.  
+
+The creation and association of the `CommandJournal` object should be removed.",2021-07-13,1,81
+dss,"API Gateway - Proxy HTTP response body for errors","For 400 responses (and maybe others), API Gateway currently does not pass the response body on to the client. The API Gateway should pass the body back to the client.
+
+For example, when posting a bad registration directly to the Registration HTTP Server (on port 8081):
+
+```
+fetch('http://localhost:8081/registrations/', {
+    method: ""POST"",
+    headers: new Headers({
+        ""Accept"": ""application/json"",
+        ""Content-Type"": ""application/json""
+    }),
+    body: JSON.stringify({
+        ""describe"": ""not a valid registration""
+    })
+})
+.then(response => {
+    console.log(response.status);
+    return response.text();
+})
+.then(body => console.log(body))
+```
+
+the output is
+
+```
+400
+Registration did not have valid structure
+```
+
+However if the same post is made to the API Gateway (on port 8080), the output is
+
+```
+400
+{""error"":{""code"":400,""message"":""Bad Request""}}
+```
+
+The API Gateway response body should at least *contain* the original ""Registration did not have valid structure"" message (if not be it).",2021-07-14,5,76
+BCD,"Geospatial - Go To Control stops functioning after saving Map Settings","## Environment
+Windows, Chrome and Edge
+
+## Steps to Reproduce
+
+1. Add new Geospatial Portlet
+2. Click Go To Control on top left of portlet
+3. Enter valid coordinates and press Enter
+4. Notice map moves to entered coordinates
+5. Click Configure button on the button control panel on the right
+6. Click Map Settings tab
+7. Change any of the input fields and click Save Map button
+8. Click Close button
+9. Click Go To Control on top left of portlet
+10. Enter valid coordinates and press Enter
+11. Map does not move
+
+
+Also happens as the result of resizing the Geospatial portlet. Essentially, anytime you force a mapsave/mapreload, except for Save Layer, which does reloads the map but still allows GoTo to function normally.",2021-07-14,5,71
+BCD,"Servlet - Null Check Missing From CommandJournalPortlet toJSON Method","The `toJSON()` method in `CommandJournalPortlet` is not performing a null check on the local `commandJournal` variable before attempting to invoke `getId()`.
+
+There should be a null check before performing any actions on the local `commandJournal` object.",2021-07-15,1,70
+cmsdoc,"SUM - Chat Portlet/Servlet - Advanced Options Setting For Ignoring Server Certificate Errors","Update SUM for advanced options.
+
+This is the documentation task for usmc/CMS#233",2021-07-20,,70
+CMS,"Chat Portlet/Servlet - Advanced Options Setting For Ignoring Server Certificate Errors","Currently, the Servlet will attempt an SSL connection to an XMPP server and accept any SSL certificate (see `XmppServerConnection`).  This is not a viable long-term solution, as it is a security risk to accept any SSL certificate.
+
+We should implement an advanced option to allow the user to ignore server certificate errors when connecting
+
+This depends on #202 being completed.
+
+**Documentation task:**  usmc/cmsdoc#202
+
+Tasks:
+- [x] Implement UI in Chat Portlet for ignoring server certificate errors
+- [x] Implement parameter to be passed from Chat Portlet to Servlet into `XmppServerConnection`
+- [x] Implement SSL ""accept all"" when designated by user (use existing implementation to facilitate this)
+- [x] Implement response to client if SSL certificate is invalid (if possible)",2021-07-20,5,65
+BCD,"Servlet - Add CommandJournalDWR Usage","Add invocations to the appropriate `CommandJournalDWR` methods when `CommandJournalPortlet` and `CommandJournal` objects are changed.
+
+Add the JavaScript stubs for the necessary functions in `BCDDWRController.js` to match what is explicitly invoked in `CommandJournalDWR`.  The implementation of the functions is *not* part of this Issue.
+
+Add what is necessary to `BCDDWRController.js` to support DWR subscription for the Command Journal portlet.
+
+This requires #894, #895, and #905 to be completed.",2021-07-21,5,60
+dss,"Registration/Summary Services - Add Registration Name","Currently a data summary endpoint consumer must also be a data summary creator in order to know the auto-generated summary URL.  This tight coupling must be removed to allow data summary consumers to be ignorant of summary endpoint creation. When the DSS or a summary creator restarts, a single data summary creator needs to ensure that its summary is present and create it if not. Data summary consumers, e.g. DSS Summary Demo view, BCD views, should not be required to implement this logic nor retrieve autogenerated urls.  
+
+Suggest adding an optional name/value pair to the registration schema, e.g. ""summaryUrl"": ""/myNamedSummary"". This value would be appended to the base summary endpoint. If the summary url already exists a bad request is returned, e.g. 400.",2021-07-21,5,55
+BCD,"Geospatial - (PWA) Implement Offline POST Handling: Saving Map Object","Handle POST action for saving the Map object while offline. Upon going back online, offline changes should persist.
+
+Pre-requisite: http://git.grid/usmc/bcd/-/issues/877 must be completed before work can start on this issue.",2021-07-21,5,50
+BCD,"Extensions/Theme - Expand and enhance the auto logout mechanism","Currently BCD/Liferay will auto logout a user after some amount of time.
+This task is to enhance that behavior with a set time we control, if Liferay gives us that power, as well as create or piggyback on a mechanism that checks periodically if the user is still logged in.
+When it is determined that a user has been logged out, we want to redirect them to the Liferay login URL. `/liferay/` should work as the ending path.
+
+It may be possible to periodically query a known URL in the BCD Servlet and trigger the logout-redirect when that responds with some 4xx HTTP error code.",2021-07-22,8,42
+BCD,"IM21","This is an encapsulation Issue to track the work/time spent bringing the previous IM19 DSS integration effort current with the BCD master branch.
+
+This encompasses Issues #530, #531, and #532.
+
+Files to update:
+- [x] Capabilities Monitoring
+    - [x] `AJAX.js` (@aboroumand)
+    - [x] `CapabilityHelper.js` (@aboroumand)
+    - [x] `FormulaDialog.js` (@aboroumand)
+    - [x] `view.jsp` (@aboroumand)
+    - [x] `CapabilityHelperTest.js` (@aboroumand)
+- [x] Status Reporting
+    - [x] `StatusReportingController.js` (@aboroumand)
+    - [x] `view.jsp` (@aboroumand)
+    - [x] `StatusReportingControllerTest.js` (@aboroumand)
+    - [x] `StatusReportingControllerTest.html` (@aboroumand)
+- [x] Servlet
+    - [x] `CustomDataType` (@rtobin)
+    - [x] `CustomDataTypeDAO` (@rtobin)
+    - [x] `StatusItem` (@rtobin)
+    - [x] `StatusItemDAO` (@rtobin)
+    - [x] `DSSServiceInitializer` (@rtobin)
+    - [x] `CustomDataTypeManager` (@rtobin)
+    - [x] `StatusItemDaoTest` (@rtobin) (Removed, no longer applicable)
+    - [x] `CustomDataTypeDaoTest` (@rtobin) (Removed, no longer applicable)
+    - [x] `CapabilityManager` (@rtobin)
+    - [x] `CapabilityServlet` (@rtobin)
+    - [x] `hibernate.cfg.xml` (@rtobin)
+    - [x] `CapabilityManagerTest` (@rtobin)
+    - [x] `CapabilityTestUtils` (@rtobin) (No longer applicable)
+    - [x] `CustomDataTypeManagerTest` (@rtobin)
+    - [x] `CapabilityServletTest` (@rtobin)
+- [x] Extensions
+    - [x] `Capability.Datatypes.js` (@rtobin)
+
+
+Additional code tasks:
+- [x] Add Custom Data Types to export (@rtobin)
+- [x] Update export unit tests (@rtobin)
+- [x] Add Custom Data Types to import (@rtobin)
+- [x] Update import unit tests (@rtobin)
+
+Testing tasks:
+- [x] Test Capabilities Monitoring UI for specifying DSS
+- [x] Test Status Reporting UI for specifying DSS
+- [x] Test Servlet for creating CustomDataType, associating with StatusItem, and creating initial StatusReport from DSS registration
+- [x] Test Servlet for automatic update of DSS registration data to create StatusReports
+- [x] Test changing StatusItem to remove DSS registration (works properly and does not attempt to retrieve registration status)
+- [x] Test export
+- [x] Test import",2021-07-23,5,37
+BCD,"Servlet - Automatic Updating Of Custom Data Types","In continuation of the Capabilities custom data type implementation, a mechanism needs to be implemented that retrieves data from applicable custom data sources (for this task, only ""DSS"") and the specified interval.  The data retrieved will be used to create new StatusReport objects for any associated StatusItems, and those updates will be pushed to all clients via DWR.
+
+The DSS retrieval should use the DSS API to also retrieve the time-of-report from DSS.  This will be used to populate the StatusReport time.  If the timestamp retrieved from DSS is the same timestamp as the last StatusReport for a given StatusItem, do not create a new StatusReport.
+
+At this point, the automatic retrieval should occur once every 60 seconds.  This value can be hard-coded, but should be implemented in a way that allows for customization of that value in a future task.
+
+This task requires #530 and #531 to be complete.
+
+Tasks:
+- [x] Create mechanism to periodically retrieve data from applicable custom data sources (just ""DSS"" for now)
+- [x] Update all relevant StatusItems with new StatusReports based on the retrieved data
+
+## THIS MUST BE MERGED INTO A SEPARATE `IM19` BRANCH, NOT MASTER",2021-07-23,8,29
+BCD,"Servlet - Update Data Model And Servlet Endpoints For Capabilities Custom Data Types","To support the client-side management of custom data types in Capabilities Monitoring (#530), the Servlet needs to have an updated data model to support custom data types and endpoints that support CRUD operations.  All operations should be limited to administrative users only.
+
+The current definition of data types is a static enumeration of `StatusItemDataType`, which is defined in the `StatusItem.java` file.  This will need to be expanded to allow for custom data types.
+
+There will need to be a new persisted class to contain custom data type information.  That class will need to contain the following information:  
+- A data type category (this would be a new enumeration, the first value of which would be ""DSS"")
+- A general String field for ""amplifying information"" 
+- A name/title for the data type
+
+This task should be worked in concert with #530 to coordinate data structures and Servlet endpoints.
+
+Tasks: 
+- [x] Update Capability-related data model to allow for custom data types
+- [x] Create persisted class and supporting database classes to represent custom data type information
+- [x] Create Servlet endpoints for get, create, update, and delete operations on custom data types
+
+Custom Data Type CRUD Endpoints:
+- [x] Create - POST, body parameters: name (optional), amplifyingInformation, category
+- [x] Read - POST, body parameters: id
+- [x] Update - POST, body parameters: id, portletIdentifier, name (optional), amplifyingInformation, category
+- [x] Delete - POST, body parameters: id, portletIdentifier
+
+Update Status Item Endpoints:
+- [x] Create
+- [x] Update
+
+## THIS MUST BE MERGED INTO A SEPARATE `IM19` BRANCH, NOT MASTER",2021-07-23,13,16
+BCD,"Capabilities Monitoring/Status Reporting - Create UI For Custom Data Types","To support our initial foray into use of DSS configured endpoints as data types, we need to have a UI that allows a user to specify a DSS endpoint.
+
+The initial concept would be something similar to how formulas are set on StatusItems.  We will create another icon to indicate DSS, and provide the user with a text field to enter the DSS endpoint.  This will be transmitted to the server as a ""custom data type"" and an update to the StatusItem to use that ""custom data type.""
+
+
+A ""custom data type"" will consist of the following information:
+- A ""core"" data type (at this point, that would be text or numeric based on the existing `StatusItemDataType.java` definition, which is mirrored in `bcd.datatypes.capability.StatusItemDataType` and is specified on the StatusItem)
+- A data type category (this would be a new enumeration, the first value of which would be ""DSS"")
+- A general text field for ""amplifying information"" (this would be the DSS endpoint URL)
+
+
+This task should be worked in concert with #531 to coordinate data structures and Servlet endpoints.
+
+## THIS MUST BE MERGED INTO A SEPARATE `IM19` BRANCH, NOT MASTER",2021-07-23,13,3
+bcdoc,"PCD/SUM - IM21","Update the PCD to have a test case for DSS in Capabilities Monitoring and Status Reporting.
+
+Update the SUM for DSS",2021-07-23,,3
+BCD,"Servlet - Add Owner To CommandJournal JSON Representation","The `toJSON()` for the `CommandJournal` class should include a field for `owner`.  This field should contain the user name for the owner.  This can be taken from the `creatorID` value.  See `EntryComment#toJSON()` for how to do this.",2021-07-23,1,2
+BCD,"Servlet - CommandJournalServlet Should Not Return Empty JSON Objects","`CommandJournalServlet` erroneously returns an empty JSON object in `createPortlet()` and `getPortlet()` when the request does not succeed with the given information.  These should be failure states with an HTTP error code indicating a bad request.",2021-07-23,2,0
+bcd-selenium,"Create Test Case For BCD #892","Implement the test case for the BCD IM21 DSS integration.",2021-07-26,,0

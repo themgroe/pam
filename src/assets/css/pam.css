@@ -1,3 +1,8 @@
+.App {
+    height: 100vh;
+    width: 100vw;
+}
+
 /*
  * LABELS 
  */
@@ -24,6 +29,9 @@
 /*
  * NAVIGATION BAR
  */
+.navbar {
+    height: 6%;
+}
 .navbar-links {
     width: 100%;
 }
@@ -37,4 +45,54 @@
     flex-direction: row;
     justify-content: flex-end;
     width: 30%
+}
+
+/* 
+* Manage Data Page
+*/
+.manage-data-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: 94%;
+}
+.manage-data-side-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 20%;
+    background-color: rgb(66, 71, 74);
+}
+.manage-data-side-bar > .card-body, .manage-data-side-bar-project-list, .side-bar-project-name {
+    width: 100%;
+}
+.side-bar-project-name {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.side-bar-project-name:hover {
+    background-color: rgb(26, 28, 29);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+.csv-input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 50%;
+}
+.csv-input-group input {
+    width: 50%;
+    margin-right: 5%;
 }
