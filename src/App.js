@@ -7,7 +7,7 @@ import {
 
 import Navbar from './components/Navbar';
 import Analytics from './components/pages/analytics/Analytics';
-import ManageData from './components/pages/manageData/ImportData';
+import ManageData from './components/pages/manageData/ManageData';
 
 function App() {
 	return (

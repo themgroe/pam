@@ -1,8 +1,5 @@
 import React from 'react';
 
-// Necessary for routing on clicks / keeping history
-import {withRouter} from 'react-router-dom'
-
 //  Parsing module
 import Papa from 'papaparse';
 
@@ -63,15 +60,6 @@ class ManageData extends React.Component {
     this.props.addSprintToProject(sprintObject);
   }
 
-  goToPage(uid) {
-    //  set selected sprint
-    this.props.selectSprint(uid);
-    //  set selected project
-    this.props.selectProject(uid);
-    //  change pages to analytics
-    this.props.history.push("/analytics");
-  }
-
   render() {
     const { projects } = this.props;
 
@@ -112,4 +100,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = { addSprint, remove, selectSprint, addSprintToProject, selectProject };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ManageData));
+export default connect(mapStateToProps, mapDispatchToProps)(ManageData);

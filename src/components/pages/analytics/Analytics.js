@@ -3,9 +3,6 @@ import React from 'react';
 //  Redux Imports
 import { connect } from 'react-redux';
 
-import PAMLineGraph from '../../forms/PAMLineGraph';
-// import PAMComposedChart from './forms/PAMComposedChart';
-
 class Analytics extends React.Component {
     constructor(props)
     {
@@ -25,8 +22,8 @@ class Analytics extends React.Component {
                     <div>{this.state.projects.selectedProject.name}</div> :
                     <div></div>
                 }
-                <PAMLineGraph data={this.state.sprints} />
-                {/* PAMComposedChart needs a rework to display data properly based on the newly craft objects/reducer state */}
+                {/* PAM Visuals need a rework to display data properly based on the newly craft objects/reducer state */}
+                {/* <PAMLineGraph data={this.state.sprints} /> */}
                 {/* <PAMComposedChart data={this.state.sprints} /> */}
             </div>
         )

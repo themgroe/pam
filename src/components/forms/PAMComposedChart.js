@@ -15,23 +15,28 @@ class PAMComposedChart extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {
+            data: null
+        }
+    }
+
+    componentDidMount() {
+        this.setState({data: [this.props.data]})
     }
 
     render()
     {
-        console.log(this.props.data.selectedCSV)
-        if (this.props.data.selectedCSV) {
+        if (this.state.data != null) {
             return(
                 // <ResponsiveContainer height="100%" width="100%" className="RBG">
-                    <ComposedChart width={200} height={350} data={this.props.data.selectedCSV}>
-                        <XAxis dataKey="PointsAchieved" />
+                    <ComposedChart width={200} height={350} data={this.state.data}>
+                        <XAxis dataKey="achieved" />
                         <YAxis />
                         <Tooltip />
                         <Legend width={250} />
                         <CartesianGrid stroke="#f5f5f5" />
-                        <Bar dataKey="PointsAchieved" barSize={50} fill="#8884d8" />
-                        <Bar dataKey="IssuesCompleted" barSize={50} fill="#82ca9d" />
+                        <Bar dataKey="achieved" barSize={20} fill="#8884d8" />
+                        <Bar dataKey="planned" barSize={20} fill="#82ca9d" name="point" />
                     </ComposedChart>
                 // </ResponsiveContainer>
             )

@@ -14,8 +14,10 @@ export const projectSlice = createSlice({
             state.data.forEach(project => {
                 if (project.name === action.payload.name) {
                     found=true;
-                    // add uid to sprints array
-                    project.sprints.push(action.payload.uid);
+                    if (!project.sprints.includes(action.payload.uid)) {
+                        // New sprint - add uid to sprints array
+                        project.sprints.push(action.payload.uid);
+                    }
                 };
             })
             
