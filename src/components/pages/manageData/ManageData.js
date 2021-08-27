@@ -37,10 +37,6 @@ class ManageData extends React.Component {
     });
   }
 
-  removeCSV(uid) {
-    this.props.remove(uid)
-  }
-
   setJson(result) {
     // obtain csv name and set sprint #
     let titleArray = this.state.selectedCSV.name.split(" ");
