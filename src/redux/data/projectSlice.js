@@ -8,7 +8,6 @@ export const projectSlice = createSlice({
     },
     reducers: {
         addSprintToProject: (state, action) => {
-            console.log("Project: ", action.payload)
             // add a sprint UID to the project object (reference id)
             // loop through and find project name then add UID to that project
             let found = false;

@@ -3,7 +3,7 @@ import React from 'react';
 //  Redux Imports
 import { connect } from 'react-redux';
 
-import PAMLineGraph from './forms/PAMLineGraph';
+import PAMLineGraph from '../../forms/PAMLineGraph';
 // import PAMComposedChart from './forms/PAMComposedChart';
 
 class Analytics extends React.Component {

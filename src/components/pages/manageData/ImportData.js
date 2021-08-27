@@ -8,13 +8,13 @@ import Papa from 'papaparse';
 
 //  Redux Imports
 import { connect } from 'react-redux';
-import { add, remove, selectSprint } from '../redux/data/sprintSlice';
-import { addSprintToProject, selectProject } from '../redux/data/projectSlice';
+import { addSprint, remove, selectSprint } from '../../../redux/data/sprintSlice';
+import { addSprintToProject, selectProject } from '../../../redux/data/projectSlice';
 
 // CSS
-import '../assets/css/pam.css';
+import '../../../assets/css/pam.css';
 
-class ImportData extends React.Component {
+class ManageData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ class ImportData extends React.Component {
     // this resets the file input (utilizes "ref" tag and the "file_input_file" id)
     this.fileInput.value = "";
     // call the SET action for sprints to add the uploaded sprint to the users data
-    this.props.add(sprintObject);
+    this.props.addSprint(sprintObject);
     // create the project if it doesnt exist and add the sprint to it.
     this.props.addSprintToProject(sprintObject);
   }
@@ -73,10 +73,23 @@ class ImportData extends React.Component {
   }
 
   render() {
-    const { sprints } = this.props;
+    const { projects } = this.props;
 
     return(
-      <div>
+      <div className="manage-data-wrapper">
+        {/* DIV BLOCK FOR THE SIDE BAR */}
+        <div className="card text-white bg-secondary mb-3 manage-data-side-bar" style={{maxWidth: '20rem'}}>
+          <div className="card-header">Project List</div>
+          <div className="card-body">
+            <div className="card-text manage-data-side-bar-project-list">
+              {projects.data.map(project => (
+                  <div key={project["name"]} className="side-bar-project-name">{project["name"]}</div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        {/* END OF DIV BLOCK FOR SIDE BAR */}
         <div className="form-group">
           <label htmlFor="formFile" className="form-label mt-4">Choose a CSV file for import</label>
           <div className="csv-input-group">
@@ -86,36 +99,6 @@ class ImportData extends React.Component {
             </button>
           </div>
         </div>
-        {
-          sprints ?
-            <div>
-                  {/* THIS BLOCK SHOULD BECOME A COMPONENT THAT WE PASS THE CSV ARRAY TO */}
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Project</th>
-                      <th scope="col">Sprint</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sprints.data.map(sprint => (
-                      <tr id={sprint.UID} key={sprint.UID} className="table-light">
-                        <th scope="row">{sprint.Project}</th>
-                        <th scope="row">{"Sprint " + sprint.Sprint}</th>
-                        <td className="project-action-btns" >
-                          <button type="button" className="btn btn-light" onClick={() => this.goToPage(sprint.UID) }>View</button>
-                          <button type="button" className="btn btn-light" onClick={() => alert("this btn does nothing.")}>Edit</button>
-                          <button type="button" className="btn btn-light" onClick={() => this.removeCSV(sprint.UID)}>Remove</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {/* END OF "SHOULD BE" COMPONENT SECTION */}
-              </div> :
-              <div> No Data has been imported </div>
-        }
       </div>
     )
   }
@@ -127,6 +110,6 @@ const mapStateToProps = (state) => ({
   projects: state.projects,
 });
 
-const mapDispatchToProps = { add, remove, selectSprint, addSprintToProject, selectProject };
+const mapDispatchToProps = { addSprint, remove, selectSprint, addSprintToProject, selectProject };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ImportData));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ManageData));

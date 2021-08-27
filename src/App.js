@@ -6,8 +6,8 @@ import {
 } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import Analytics from './components/Analytics';
-import ImportData from './components/ImportData';
+import Analytics from './components/pages/analytics/Analytics';
+import ManageData from './components/pages/manageData/ImportData';
 
 function App() {
 	return (
@@ -23,8 +23,8 @@ function App() {
 					<Route exact path="/analytics">
 						<Analytics />
 					</Route>
-					<Route exact path="/import-data">
-						<ImportData />
+					<Route exact path="/manage-data">
+						<ManageData />
 					</Route>
 					<Route exact path="/about">
 						About

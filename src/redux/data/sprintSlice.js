@@ -7,7 +7,7 @@ export const sprintSlice = createSlice({
         selectedCSV: null
     },
     reducers: {
-        add: (state, action) => {
+        addSprint: (state, action) => {
             /*
             * ADD method
             *     saving the passed sprint data into the redux store
@@ -88,6 +88,6 @@ export const sprintSlice = createSlice({
     }
 })
 
-export const { add, remove, selectSprint } = sprintSlice.actions;
+export const { addSprint, remove, selectSprint } = sprintSlice.actions;
 
 export default sprintSlice.reducer;
