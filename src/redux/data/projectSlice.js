@@ -37,9 +37,10 @@ export const projectSlice = createSlice({
             // remove the project object from the data array
         },
         selectProject: (state, action) => {
+            console.log("selecting project... ", action.payload)
             // set a project that is selected for view in the analytics page
             state.data.forEach(project => {
-                if (project.sprints.includes(action.payload)) {
+                if (project["name"] === action.payload) {
                     state.selectedProject = project;
                 }
             })
@@ -47,6 +48,6 @@ export const projectSlice = createSlice({
     }
 });
 
-export const { addSprintToProject, removeSprintFromProject, deleteProject, selectProject } = projectSlice.actions;
+export const { addSprintToProject, removeSprintFromProject, deleteProject, selectProject, getSprintProjects } = projectSlice.actions;
 
 export default projectSlice.reducer;

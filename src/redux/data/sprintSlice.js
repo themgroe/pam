@@ -28,6 +28,7 @@ export const sprintSlice = createSlice({
                 let issueArray = [];
                 let issueAttributes = [];
                 let arraySize = action.payload.issues.length;
+                let addedOn = new Date().toDateString();
                 action.payload.issues.forEach((issue, index) => {
                     //  if this is the first row in the array, then we need to extract the object data from it.
                     if (index === 0) {
@@ -56,6 +57,7 @@ export const sprintSlice = createSlice({
                 sprintObject['Issues'] = [...issueArray];
                 sprintObject['IssuesCompleted'] = issueArray.length;
                 sprintObject['PointsAchieved'] = pointsAchieved;
+                sprintObject['AddedOn'] = addedOn;
     
                 // Creating node Unique Identifier
                 sprintObject['UID'] = sprintObject['Project'] + sprintObject['Sprint'];
@@ -68,7 +70,7 @@ export const sprintSlice = createSlice({
 
 
         },
-        remove: (state, action) => {
+        removeSprint: (state, action) => {
             // variable to hold the "found at" value
             let sprintIndex = 0;
             // forEach to loop through array 
@@ -96,10 +98,17 @@ export const sprintSlice = createSlice({
                     state.selectedCSV = sprint;
                 }
             })
+        },
+        getSprintByUID: (state, action) => {
+            state.data.forEach(sprint => {
+                if (sprint["UID"] === action.payload) {
+                    return sprint;
+                }
+            })
         }
     }
 })
 
-export const { addSprint, remove, selectSprint } = sprintSlice.actions;
+export const { addSprint, removeSprint, selectSprint, getSprintByUID } = sprintSlice.actions;
 
 export default sprintSlice.reducer;

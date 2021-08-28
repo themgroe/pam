@@ -5,8 +5,11 @@ import Papa from 'papaparse';
 
 //  Redux Imports
 import { connect } from 'react-redux';
-import { addSprint, remove, selectSprint } from '../../../redux/data/sprintSlice';
-import { addSprintToProject, selectProject } from '../../../redux/data/projectSlice';
+import { addSprint, selectSprint } from '../../../redux/data/sprintSlice';
+import { addSprintToProject, selectProject, getSprintProjects } from '../../../redux/data/projectSlice';
+
+// Components
+import SprintItem from './SprintItem';
 
 // CSS
 import '../../../assets/css/pam.css';
@@ -54,10 +57,12 @@ class ManageData extends React.Component {
     this.props.addSprint(sprintObject);
     // create the project if it doesnt exist and add the sprint to it.
     this.props.addSprintToProject(sprintObject);
+    // select the project for the csv uploaded
+    this.props.selectProject(team);
   }
 
   render() {
-    const { projects } = this.props;
+    const { sprints, projects } = this.props;
 
     return(
       <div className="manage-data-wrapper">
@@ -66,23 +71,60 @@ class ManageData extends React.Component {
           <div className="card-header">Project List</div>
           <div className="card-body">
             <div className="card-text manage-data-side-bar-project-list">
-              {projects.data.map(project => (
-                  <div key={project["name"]} className="side-bar-project-name">{project["name"]}</div>
-                ))
+              {projects.data.map(project => 
+                {
+                  return projects.selectedProject === project ?
+                  <div key={project["name"]} className="side-bar-project-name-selected" onClick={() => this.props.selectProject(project["name"])}>{project["name"]}</div> :
+                  <div key={project["name"]} className="side-bar-project-name" onClick={() => this.props.selectProject(project["name"])}>{project["name"]}</div>
+                })
               }
             </div>
           </div>
         </div>
         {/* END OF DIV BLOCK FOR SIDE BAR */}
-        <div className="form-group">
-          <label htmlFor="formFile" className="form-label mt-4">Choose a CSV file for import</label>
-          <div className="csv-input-group">
-            <input id="fileInput" className="form-control" type="file" ref={ref=> this.fileInput = ref} onChange={(e) => this.getCSV(e)}/>
-            <button id="submitCSVButton" type="button" className="btn btn-light" onClick={this.onHandleSubmit}>
-              Submit
-            </button>
+        {/* START OF BLOCK CONTAINING IMPORT FORM AND SPRINT LIST FOR SELECTED PROJECT */}
+        <div className="manage-data-main-group">
+          {/* START OF BLOCK FOR THE IMPORT SPRINT FORM */}
+          <div className="form-group">
+            <label htmlFor="formFile" className="form-label mt-4">Choose a CSV file for import</label>
+            <div className="csv-input-group">
+              <input id="fileInput" className="form-control" type="file" ref={ref=> this.fileInput = ref} onChange={(e) => this.getCSV(e)}/>
+              <button id="submitCSVButton" type="button" className="btn btn-light" onClick={this.onHandleSubmit}>
+                Submit
+              </button>
+            </div>
           </div>
+          {/* END OF BLOCK FOR THE IMPORT SPRINT FORM */}
+          <hr className="manage-data-page-break" />
+          {/* START OF BLOCK FOR THE LIST OF SPRINTS */}
+          {
+            projects.selectedProject ?
+            <div style={{width: '85%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}> 
+              <div>
+                <span style={{opacity: '0.75'}}>Project Selected:</span> 
+                <span style={{marginLeft: '10px', fontWeight: 'bold'}}>{projects.selectedProject.name}</span>
+              </div>
+              <div>
+                <span style={{opacity: '0.75'}}>Total Items:</span>
+                <span style={{marginLeft: '10px', fontWeight: 'bold'}}>{projects.selectedProject.sprints.length}</span>
+              </div>
+            </div> : null
+          }
+          {
+            projects.selectedProject ?
+              // A Project was selected - map the sprints to elements!
+              sprints.data.map(sprint => {
+                return projects.selectedProject.sprints.includes(sprint.UID) ?
+                  <SprintItem 
+                    sprint={sprint}
+                  />
+                  : null
+              })
+            : null
+          }
+          {/* END OF BLOCK FOR THE LIST OF SPRINTS */}
         </div>
+        {/* END OF BLOCK CONTAINING IMPORT FORM AND SPRINT LIST FOR SELECTED PROJECT */}
       </div>
     )
   }
@@ -94,6 +136,6 @@ const mapStateToProps = (state) => ({
   projects: state.projects,
 });
 
-const mapDispatchToProps = { addSprint, remove, selectSprint, addSprintToProject, selectProject };
+const mapDispatchToProps = { addSprint, selectSprint, addSprintToProject, selectProject, getSprintProjects };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageData);
