@@ -18,9 +18,9 @@ const SprintItem = (props) => {
                     </div>
                 </div>
                 <div className="sprint-item-actions">
-                    <div>View</div>
-                    <div>Edit</div>
-                    <div onClick={() => props.removeSprint(props.sprint.UID)}>Remove</div>
+                    <div onClick={() => props.viewModal(props.sprint.UID)} className="sprint-actions">View</div>
+                    <div onClick={() => alert("This functionality has not beed implemented yet.")} className="sprint-actions">Edit</div>
+                    <div onClick={() => props.removeSprint(props.sprint.UID)} className="sprint-actions">Remove</div>
                 </div>
             </li>
         </ul>

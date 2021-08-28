@@ -18,11 +18,13 @@ class ManageData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCSV: null,
+      selectedSprint: null,
       arrayCSV: [],
     };
     this.setJson = this.setJson.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
+    this.viewModal = this.viewModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   // Function to obtain name of csv file / the target
@@ -61,11 +63,38 @@ class ManageData extends React.Component {
     this.props.selectProject(team);
   }
 
+  viewModal(UID) {
+    // select sprint to be shown via modal
+    this.setState({selectedSprint: UID}, () => {
+      // show modal
+      console.log("selected sprint: ", this.state.selectedSprint)
+      this.setState({showModal: true});
+    })
+  }
+
+  closeModal() {
+    // close modal
+    this.setState({showModal: false}, () => {
+      //  deselect sprint
+      this.setState({selectedSprint: null});
+    });
+  }
+
+  handlePageClick = (data) => {
+    let selected = data.selected;
+    let offset = Math.ceil(selected * 5);
+
+    this.setState({ offset: offset });
+  };
+
   render() {
     const { sprints, projects } = this.props;
 
     return(
       <div className="manage-data-wrapper">
+        {/* OVERLAY BLOCK FOR MODAL POPUP */}
+        <div className={this.state.showModal ? "overlay" : null} onClick={() => this.closeModal()}></div>
+        {/* END OF OVERLAY BLOCK */}
         {/* DIV BLOCK FOR THE SIDE BAR */}
         <div className="card text-white bg-secondary mb-3 manage-data-side-bar" style={{maxWidth: '20rem'}}>
           <div className="card-header">Project List</div>
@@ -84,6 +113,53 @@ class ManageData extends React.Component {
         {/* END OF DIV BLOCK FOR SIDE BAR */}
         {/* START OF BLOCK CONTAINING IMPORT FORM AND SPRINT LIST FOR SELECTED PROJECT */}
         <div className="manage-data-main-group">
+          {/* MODAL BLOCK FOR VIEWING ALL SPRINT DATA */}
+          <div className={this.state.showModal ? "modal" : "modal-hidden"}>
+            <div id="model-dialog-id">
+                { this.state.selectedSprint ?
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" style={{color: '#00bc8c'}}>{this.state.selectedSprint}</h5>
+                      <button type="button" className="btn-close" onClick={() => this.closeModal()}>
+                        <span aria-hidden="true"></span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <table className="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Issue Title</th>
+                            <th scope="col">Issue Description</th>
+                            <th scope="col">Story Points</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           
+                      {/* DATA SET FOR EACH ISSUE */}
+                      {sprints.data.map(sprint => {
+                        return this.state.selectedSprint === sprint.UID ?
+                        sprint.Issues.map((issue, i) => {
+                          return (
+                                <tr id={i} key={i}>
+                                  <td>{issue["Issue Title"]}</td>
+                                  <td>{issue["Issue Description"]}</td>
+                                  <td>{issue["Story Points"]}</td>
+                                </tr> 
+                                )
+                              })
+                              : null
+                            })
+                          }
+                      {/* END OF DATASET FOR EACH ISSUE */}
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                  : null
+                }
+            </div>
+          </div>
+          {/* END OF MODAL BLOCK */}
           {/* START OF BLOCK FOR THE IMPORT SPRINT FORM */}
           <div className="form-group">
             <label htmlFor="formFile" className="form-label mt-4">Choose a CSV file for import</label>
@@ -116,6 +192,8 @@ class ManageData extends React.Component {
               sprints.data.map(sprint => {
                 return projects.selectedProject.sprints.includes(sprint.UID) ?
                   <SprintItem 
+                    key={sprint.UID}
+                    viewModal={this.viewModal}
                     sprint={sprint}
                   />
                   : null
