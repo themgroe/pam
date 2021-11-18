@@ -4,6 +4,8 @@ import '../assets/css/pam.css';
 
 import { Link } from 'react-router-dom';
 
+import { AuthButton } from '../authentication/use-auth';
+
 class Navbar extends React.Component {
     render() {
         return(
@@ -30,6 +32,9 @@ class Navbar extends React.Component {
                             <div className="info-links">
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/about">About</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <AuthButton />
                                 </li>
                             </div>
                         </ul>

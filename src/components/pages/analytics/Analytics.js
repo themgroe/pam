@@ -8,6 +8,7 @@ class Analytics extends React.Component {
     {
         super(props);
         this.state = {
+            user: this.props.user,
             sprints: this.props.sprints,
             projects: this.props.projects
         }
@@ -18,9 +19,9 @@ class Analytics extends React.Component {
             <div>
                 {/* Header */}
                 {
-                    this.state.sprits ?
+                    this.state.projects.selectedProject ?
                     <div>{this.state.projects.selectedProject.name}</div> :
-                    <div></div>
+                    <div>No Project / Sprint selected</div>
                 }
                 {/* PAM Visuals need a rework to display data properly based on the newly craft objects/reducer state */}
                 {/* <PAMLineGraph data={this.state.sprints} /> */}
@@ -31,6 +32,7 @@ class Analytics extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    user: state.user,
     sprints: state.sprints,
     projects: state.projects,
 });
